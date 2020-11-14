@@ -3,6 +3,7 @@ class Node:
     def __init__(self, state: []):
         self.state = state
         self.cost = 0
+        self.open = True
 
     def generate_next_nodes(self) -> []:  # make sure to return list of Nodes
         pass
