@@ -33,7 +33,9 @@ class Solver:
                 best_node = c
                 min_cost = total_cost
         # Close that Node to prevent visiting it again. ( Alert : This can be buggy )
-        best_node.set_closed()
+        if best_node is Node:
+            best_node.set_closed()
+        #best_node.open = False
         if show_steps:
             best_node.draw()
         if best_node.is_solution():
