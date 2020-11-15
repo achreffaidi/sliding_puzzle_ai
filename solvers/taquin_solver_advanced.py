@@ -1,4 +1,5 @@
 from Node import Node
+import math
 
 
 class SlidingPuzzleAdvanced(Node):
@@ -8,9 +9,10 @@ class SlidingPuzzleAdvanced(Node):
 
     def evaluate_heuristic_function(self):
         result = 0
-        for x in range(3):
-            for y in range(3):
-                (x1, y1) = self.state[3*x + y]
+        n = int(math.sqrt(len(self.state)))
+        for x in range(n):
+            for y in range(n):
+                (x1, y1) = self.state[n*x + y]
                 if (x1, y1) != (0, 0):
                     result += abs(x1 - x) + abs(y1 - y)
         return result

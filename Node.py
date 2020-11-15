@@ -1,3 +1,5 @@
+import math
+
 
 class Node:
     def __init__(self, state: []):
@@ -9,31 +11,32 @@ class Node:
         empty_position_index = self.state.index((0, 0))
         initial_state = self.state.copy()
         items = ""
-        if empty_position_index in range(3):
+        n = int(math.sqrt(len(self.state)))
+        if empty_position_index in range(n):
             items += 'b'
-        elif empty_position_index in range(3, 6):
-            items += 'hb'
-        else:
+        elif empty_position_index in range(n*n - n, n*n):
             items += 'h'
-
-        if empty_position_index in [0, 3, 6]:
-            items += 'd'
-        elif empty_position_index in [1, 4, 7]:
-            items += 'gd'
         else:
+            items += 'hb'
+
+        if empty_position_index % n == 0:
+            items += 'd'
+        elif empty_position_index % n == n-1:
             items += 'g'
+        else:
+            items += 'gd'
 
         next_states_list = []
         if items.__contains__('b'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index + 3]
-            new_state[empty_position_index + 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index + n]
+            new_state[empty_position_index + n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('h'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index - 3]
-            new_state[empty_position_index - 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index - n]
+            new_state[empty_position_index - n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('g'):
@@ -78,9 +81,13 @@ class Node:
     def set_closed(self):
         self.open = False
 
-    def draw(self):  # Show representation of the node. You can just print something
-        for x in range(3):
-            print(f'{self.state[3*x]}, {self.state[3*x + 1]}, {self.state[3*x + 2]}')
+    def draw(self):# Show representation of the node. You can just print something
+        n = int(math.sqrt(len(self.state)))
+        for x in range(n):
+            line = ""
+            for y in range(n):
+                line += f'{self.state[n*x +y]} '
+            print(line)
 
     def get_method_name(self) -> str:
         pass
