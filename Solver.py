@@ -17,7 +17,7 @@ class Solver:
     def generate_nodes_from(self, node):
         generated: [] = node.generate_next_nodes()
         for c in generated:
-            if c not in self:
+            if c not in self and c is not None and self.nodes is not None:
                 heapq.heappush(self.nodes, c)
 
     def move_next(self, show_steps: bool):

@@ -21,31 +21,32 @@ class SlidingPuzzleSimple(Node):
         empty_position_index = self.state.index((0, 0))
         initial_state = self.state.copy()
         items = ""
-        if empty_position_index in range(3):
+        (m, n) = self.size
+        if empty_position_index in range(n):
             items += 'b'
-        elif empty_position_index in range(3, 6):
-            items += 'hb'
-        else:
+        elif empty_position_index in range(m * n - n, m * n):
             items += 'h'
-
-        if empty_position_index in [0, 3, 6]:
-            items += 'd'
-        elif empty_position_index in [1, 4, 7]:
-            items += 'gd'
         else:
+            items += 'hb'
+
+        if empty_position_index % n == 0:
+            items += 'd'
+        elif empty_position_index % n == n - 1:
             items += 'g'
+        else:
+            items += 'gd'
 
         next_states_list = []
         if items.__contains__('b'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index + 3]
-            new_state[empty_position_index + 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index + n]
+            new_state[empty_position_index + n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('h'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index - 3]
-            new_state[empty_position_index - 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index - n]
+            new_state[empty_position_index - n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('g'):
@@ -63,7 +64,7 @@ class SlidingPuzzleSimple(Node):
         nodes_list = []
 
         for node_state in next_states_list:
-            node_to_add = SlidingPuzzleSimple(node_state)
+            node_to_add = SlidingPuzzleSimple(node_state, m, n)
             node_to_add.cost = self.cost + self.get_action_cost(node_to_add)
             nodes_list.append(node_to_add)
 

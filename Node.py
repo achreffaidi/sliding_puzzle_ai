@@ -2,16 +2,17 @@ import math
 
 
 class Node:
-    def __init__(self, state: []):
+    def __init__(self, state: [], m, n):
         self.state = state
         self.cost = 0
+        self.size = (m, n)
         self.f = self.evaluate_heuristic_function()
         self.open = True
 
     def __lt__(self, other):
         return self.f < other.f
 
-    def generate_next_nodes(self) -> []:
+    def generate_next_nodes(self) -> []:  # make sure to return list of Nodes
         pass
 
     def evaluate_heuristic_function(self):  # return Int

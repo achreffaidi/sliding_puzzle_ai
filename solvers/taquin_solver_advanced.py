@@ -9,8 +9,8 @@ class SlidingPuzzleAdvanced(Node):
 
     def evaluate_heuristic_function(self):
         result = 0
-        n = int(math.sqrt(len(self.state)))
-        for x in range(n):
+        (m, n) = self.size
+        for x in range(m):
             for y in range(n):
                 (x1, y1) = self.state[n*x + y]
                 if (x1, y1) != (0, 0):
@@ -21,31 +21,32 @@ class SlidingPuzzleAdvanced(Node):
         empty_position_index = self.state.index((0, 0))
         initial_state = self.state.copy()
         items = ""
-        if empty_position_index in range(3):
+        (m, n) = self.size
+        if empty_position_index in range(n):
             items += 'b'
-        elif empty_position_index in range(3, 6):
-            items += 'hb'
-        else:
+        elif empty_position_index in range(m * n - n, m * n):
             items += 'h'
-
-        if empty_position_index in [0, 3, 6]:
-            items += 'd'
-        elif empty_position_index in [1, 4, 7]:
-            items += 'gd'
         else:
+            items += 'hb'
+
+        if empty_position_index % n == 0:
+            items += 'd'
+        elif empty_position_index % n == n - 1:
             items += 'g'
+        else:
+            items += 'gd'
 
         next_states_list = []
         if items.__contains__('b'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index + 3]
-            new_state[empty_position_index + 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index + n]
+            new_state[empty_position_index + n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('h'):
             new_state = self.state.copy()
-            new_state[empty_position_index] = new_state[empty_position_index - 3]
-            new_state[empty_position_index - 3] = (0, 0)
+            new_state[empty_position_index] = new_state[empty_position_index - n]
+            new_state[empty_position_index - n] = (0, 0)
             next_states_list.append(new_state)
 
         if items.__contains__('g'):
@@ -63,9 +64,8 @@ class SlidingPuzzleAdvanced(Node):
         nodes_list = []
 
         for node_state in next_states_list:
-            node_to_add = SlidingPuzzleAdvanced(node_state)
+            node_to_add = SlidingPuzzleAdvanced(node_state, m, n)
             node_to_add.cost = self.cost + self.get_action_cost(node_to_add)
-            self.f = node_to_add.cost + node_to_add.evaluate_heuristic_function()
             nodes_list.append(node_to_add)
 
         return nodes_list

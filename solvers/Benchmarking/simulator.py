@@ -18,8 +18,8 @@ class Simulator:
             (m, n) = size
             for moves in self.number_of_moves:
                 random_values = generate_random_board(m, n, moves)
-                solver_simple = Solver(SlidingPuzzleSimple(random_values))
-                solver_advanced = Solver(SlidingPuzzleAdvanced(random_values))
+                solver_simple = Solver(SlidingPuzzleSimple(random_values, m, n))
+                solver_advanced = Solver(SlidingPuzzleAdvanced(random_values, m, n))
                 solver_advanced.solve(True)
                 solver_simple.solve(False)
                 output.append({
