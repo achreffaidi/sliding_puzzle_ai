@@ -1,58 +1,48 @@
 import Node as Node
-
+import heapq
 
 class Solver:
-    def __init__(self, initial_node: Node):
+    def __init__(self, initial_node):
         self.nodes = [initial_node]
-        self.solution: Node = None
+        heapq.heapify(self.nodes)
+        self.solution = None
+        self.iterations: float = 0
 
-    def __contains__(self, item: Node):
+    def __contains__(self, item):
         for c in self.nodes:
             if item.equals(c):
                 return True
         return False
 
-    def generate_nodes_from(self, node: Node):
+    def generate_nodes_from(self, node):
         generated: [] = node.generate_next_nodes()
         for c in generated:
             if c not in self:
-                self.nodes.append(c)
+                heapq.heappush(self.nodes, c)
 
     def move_next(self, show_steps: bool):
-        min_cost: float = float('inf')
-        best_node: Node = None
-        c: Node
-        # Find best Node
-        for c in self.nodes:
-            if not c.is_open():
-                continue
-            h = c.evaluate_heuristic_function()
-            f = c.cost
-            total_cost = h + f
-            if total_cost < min_cost:
-                best_node = c
-                min_cost = total_cost
-        # Close that Node to prevent visiting it again. ( Alert : This can be buggy )
-        if best_node is Node:
-            best_node.set_closed()
-        #best_node.open = False
+        current = heapq.heappop(self.nodes)
         if show_steps:
-            best_node.draw()
-        if best_node.is_solution():
-            self.solution = best_node
+            current.draw()
+        if current.is_solution():
+            self.solution = current
             return True
+        self.generate_nodes_from(current)
         return False
 
     def solve(self, show_steps: bool):
-        iterations: float = 0
+
         while self.solution is None:
             if show_steps:
-                print("Iteration Number : " + str(iterations))
+                print("Iteration Number : " + str(self.iterations))
+                print("length : " + str(len(self.nodes)))
             self.move_next(show_steps)
-            iterations += 1
+            self.iterations += 1
         # When find solution show it
         print("===============================")
         print("======== Solution Found =======")
-        print("======= Iterations :" + str(iterations) + "=====")
+        print(self.solution.get_method_name())
+        print("======= Iterations :" + str(self.iterations) + "=====")
         print("===============================")
         self.solution.draw()
+
