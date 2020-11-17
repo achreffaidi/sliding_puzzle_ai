@@ -1,5 +1,5 @@
 # sliding_puzzle_ai
-
+To see the french version [Français](README.fr.md)
 On this project we implemented the **A\* Algorithm** to solve the Sliding game use two different **Heuristic functions**.
 ### Usage
 **Programming language:** Python 3.0 
