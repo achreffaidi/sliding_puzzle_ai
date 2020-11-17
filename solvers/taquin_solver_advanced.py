@@ -5,7 +5,7 @@ import math
 class SlidingPuzzleAdvanced(Node):
 
     def get_method_name(self) -> str:
-        return "Sliding Puzzle with Advanced H function"
+        return "Heuristics: Manhattan Distance"
 
     def evaluate_heuristic_function(self):
         result = 0
@@ -19,7 +19,6 @@ class SlidingPuzzleAdvanced(Node):
 
     def generate_next_nodes(self) -> []:  # make sure to return list of Nodes
         empty_position_index = self.state.index((0, 0))
-        initial_state = self.state.copy()
         items = ""
         (m, n) = self.size
         if empty_position_index in range(n):

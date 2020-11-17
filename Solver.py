@@ -1,6 +1,7 @@
 import Node as Node
 import heapq
 
+
 class Solver:
     def __init__(self, initial_node):
         self.nodes = [initial_node]
@@ -45,4 +46,3 @@ class Solver:
         print("======= Iterations :" + str(self.iterations) + "=====")
         print("===============================")
         self.solution.draw()
-

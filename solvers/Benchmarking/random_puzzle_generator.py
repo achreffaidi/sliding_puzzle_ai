@@ -1,10 +1,11 @@
 import random
 
+
 def generate_random_board(m, n, number_of_moves):
     board = []
     for x in range(m):
-        for y in range (n):
-            board.append((x,y))
+        for y in range(n):
+            board.append((x, y))
     items = ""
     random_possible_action = 0
     last_move = 'x'
@@ -46,22 +47,25 @@ def generate_items_string(empty_position, m, n):
         items += 'gd'
     return items
 
+
 def move_right(board: [], empty_position):
     board[empty_position] = board[empty_position + 1]
     board[empty_position + 1] = (0, 0)
+
 
 def move_left(board: [], empty_position):
     empty_position = board.index((0, 0))
     board[empty_position] = board[empty_position - 1]
     board[empty_position - 1] = (0, 0)
 
+
 def move_up(board: [], empty_position, n):
     empty_position = board.index((0, 0))
     board[empty_position] = board[empty_position - n]
     board[empty_position - n] = (0, 0)
 
+
 def move_down(board: [], empty_position, n):
     empty_position = board.index((0, 0))
     board[empty_position] = board[empty_position + n]
     board[empty_position + n] = (0, 0)
-
